@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<!-- saved from url=(0042)file:///C:/Users/User/Documents/absen.html -->
-<html lang="id"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="id">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Website Absen Guru</title>
 
 <style>
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: url('') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
     padding: 20px;
@@ -116,10 +115,10 @@ th {
 
     <div class="form-group">
         <label>Nama Guru (Wajib)</label>
-        <select id="namaGuru" required="">
+        <select id="namaGuru" required>
              <option value="">-- Pilih Guru --</option>
         <option value="Irsadudin, S.Pd">Irsadudin, S.Pd</option>
-	<option value="Munirotussa&#39;adah, M.Pd">Munirotussa'adah, M.Pd</option>
+	<option value="Munirotussa'adah, M.Pd">Munirotussa'adah, M.Pd</option>
 	<option value="Rahmatia Serang, S.Pd.I">Rahmatia Serang, S.Pd.I</option>
 	<option value="H. Rukun, S.Pd.I">H. Rukun, S.Pd.I</option>
 	<option value="Ahmad Khaerudin, S.Pd.I">Ahmad Khaerudin, S.Pd.I</option>
@@ -135,12 +134,12 @@ th {
 
     <div class="form-group">
         <label>Tanggal Absen</label>
-        <input type="date" id="tanggal" required="" min="2026-02-24" max="2026-02-24" readonly="">
+        <input type="date" id="tanggal" required>
     </div>
 
     <div class="form-group">
         <label>Keterangan Hadir (Wajib)</label>
-        <select id="keterangan" required="">
+        <select id="keterangan" required>
             <option value="">-- Pilih Keterangan --</option>
             <option value="Hadir">Hadir</option>
             <option value="Izin">Izin</option>
@@ -259,4 +258,4 @@ function tampilkanRekap() {
 
     document.getElementById("rekapData").innerHTML = html;
 }
-</script></body></html>
+</script>
