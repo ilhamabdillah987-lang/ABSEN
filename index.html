@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!-- saved from url=(0042)file:///C:/Users/User/Documents/absen.html -->
+<html lang="id"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Absen Guru</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: url('HALAMAN.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 20px;
+    color: #FFFAF0;
+    position: relative;
+}
+
+/* Overlay agar teks tetap terbaca */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* transparansi hitam */
+    z-index: -1;
+}}
+
+.container {
+    max-width: 850px;
+    background: rgba(255, 255, 255, 0.9); /* semi transparan */
+    backdrop-filter: blur(10px); /* efek glass */
+    padding: 30px;
+    margin: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.0);
+}}
+
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input, select, button {
+    width: 50%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+button {
+    background: #4e73df;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #2e59d9;
+}
+
+table {
+    width: 50%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+th {
+    background: #DAA520;
+    color: black;
+}
+
+.rekap {
+    margin-top: 30px;
+    background: #FFD700;
+    padding: 15px;
+    border-radius: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <img src="./Website Absen Guru_files/1. logo MTS.PNG" alt="Logo Sekolah" class="logo">
+        <h1>ABSEN GURU MTs. AL-HIKMAH</h1>
+        <p>Tahun Ajaran 2025 / 2026</p>
+    </div>
+
+    <div class="form-group">
+        <label>Nama Guru (Wajib)</label>
+        <select id="namaGuru" required="">
+             <option value="">-- Pilih Guru --</option>
+        <option value="Irsadudin, S.Pd">Irsadudin, S.Pd</option>
+	<option value="Munirotussa&#39;adah, M.Pd">Munirotussa'adah, M.Pd</option>
+	<option value="Rahmatia Serang, S.Pd.I">Rahmatia Serang, S.Pd.I</option>
+	<option value="H. Rukun, S.Pd.I">H. Rukun, S.Pd.I</option>
+	<option value="Ahmad Khaerudin, S.Pd.I">Ahmad Khaerudin, S.Pd.I</option>
+	<option value="H. Ahmad Nahrawi, M.Pd">H. Ahmad Nahrawi, M.Pd</option>
+	<option value="Tirta Firdaus, S.Pd.I">Tirta Firdaus, S.Pd.I</option>
+	<option value="Sulaiman Firdaus">Sulaiman Firdaus</option>
+	<option value="Herni Lutfiati, S.Pd">Herni Lutfiati, S.Pd</option>
+	<option value="Sri Astuti, S.Pd">Sri Astuti, S.Pd</option>
+	<option value="M. Yusuf Aminullah, S.Pd">M. Yusuf Aminullah, S.Pd</option>
+	<option value="Ilham Abdillah Muchlis">Ilham Abdillah Muchlis</option>
+	</select>
+    </div>
+
+    <div class="form-group">
+        <label>Tanggal Absen</label>
+        <input type="date" id="tanggal" required="" min="2026-02-24" max="2026-02-24" readonly="">
+    </div>
+
+    <div class="form-group">
+        <label>Keterangan Hadir (Wajib)</label>
+        <select id="keterangan" required="">
+            <option value="">-- Pilih Keterangan --</option>
+            <option value="Hadir">Hadir</option>
+            <option value="Izin">Izin</option>
+            <option value="Sakit">Sakit</option>
+            <option value="Alpha">Alpha</option>
+        </select>
+    </div>
+
+    <button onclick="tambahAbsen()">Simpan Absen</button>
+
+    <table id="tabelAbsen">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Tanggal</th>
+                <th>Keterangan</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <div class="rekap">
+        <h3>📊 Rekap Absen Bulan Ini</h3>
+        <div id="rekapData"></div>
+    </div>
+
+</div>
+
+<script>
+let dataAbsen = [];
+
+// Ambil tanggal hari ini format YYYY-MM-DD
+function getToday() {
+    let today = new Date();
+    return today.toISOString().split("T")[0];
+}
+
+// Set input tanggal hanya hari ini dan disable ubah manual
+let tanggalInput = document.getElementById("tanggal");
+tanggalInput.value = getToday();
+tanggalInput.setAttribute("min", getToday());
+tanggalInput.setAttribute("max", getToday());
+tanggalInput.readOnly = true;
+
+// Cek hari sekolah (Senin-Jumat)
+function hariSekolah(tanggal) {
+    let hari = new Date(tanggal).getDay();
+    return (hari !== 0 && hari !== 6);
+}
+
+function tambahAbsen() {
+    let nama = document.getElementById("namaGuru").value;
+    let tanggal = document.getElementById("tanggal").value;
+    let keterangan = document.getElementById("keterangan").value;
+
+    if (!nama || !keterangan) {
+        alert("Semua field wajib diisi!");
+        return;
+    }
+
+    if (!hariSekolah(tanggal)) {
+        alert("Hari ini bukan hari sekolah!");
+        return;
+    }
+
+    // Cek apakah guru sudah absen hari ini
+    let sudahAbsen = dataAbsen.find(item => 
+        item.nama === nama && item.tanggal === tanggal
+    );
+
+    if (sudahAbsen) {
+        alert("Guru ini sudah absen hari ini!");
+        return;
+    }
+
+    dataAbsen.push({ nama, tanggal, keterangan });
+    tampilkanTabel();
+    tampilkanRekap();
+}
+
+function tampilkanTabel() {
+    let tbody = document.querySelector("#tabelAbsen tbody");
+    tbody.innerHTML = "";
+
+    dataAbsen.forEach(item => {
+        let row = `<tr>
+            <td>${item.nama}</td>
+            <td>${item.tanggal}</td>
+            <td>${item.keterangan}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+    });
+}
+
+function tampilkanRekap() {
+    let rekap = {};
+
+    dataAbsen.forEach(item => {
+        if (!rekap[item.nama]) {
+            rekap[item.nama] = { Hadir:0, Izin:0, Sakit:0, Alpha:0 };
+        }
+        rekap[item.nama][item.keterangan]++;
+    });
+
+    let html = "";
+    for (let nama in rekap) {
+        html += `
+            <p><strong>${nama}</strong><br>
+            Hadir: ${rekap[nama].Hadir} |
+            Izin: ${rekap[nama].Izin} |
+            Sakit: ${rekap[nama].Sakit} |
+            Alpha: ${rekap[nama].Alpha}
+            </p>
+        `;
+    }
+
+    document.getElementById("rekapData").innerHTML = html;
+}
+</script></body></html>
